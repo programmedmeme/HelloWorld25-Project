@@ -1,9 +1,9 @@
 package com.example;
 
-import com.google.genai.Client;
-import com.google.genai.types.GenerateContentResponse;
+    import com.google.genai.Client;
+    import com.google.genai.types.GenerateContentResponse;
 
-public class GenerateTextFromTextInput {
+public class Main {
     public static void main(String[] args) {
         Client client = Client.builder()
             .apiKey("AIzaSyAPjd3gJCTTdFrLwMZcD7R56n1ku2svOho")
