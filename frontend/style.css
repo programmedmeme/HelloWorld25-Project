@@ -1,0 +1,37 @@
+/* <weight>: Use a value from 100 to 900 */
+/* <uniquifier>: Use a unique and descriptive class name */
+
+.bitcount-ink-custom {
+    font-family: "Bitcount Ink", system-ui;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+    font-variation-settings:
+      "slnt" 0,
+      "CRSV" 0.5,
+      "ELSH" 0,
+      "ELXP" 0,
+      "SZP1" 0,
+      "SZP2" 0,
+      "XPN1" 0,
+      "XPN2" 0,
+      "YPN1" 0,
+      "YPN2" 0;
+}
+
+
+
+
+body {
+    font-family: "Bitcount Ink", system-ui;
+    text-align: center;
+    padding: 2rem;
+    font-size: 12px; 
+    background: linear-gradient(to bottom, #f584ac, #fbbcd2)
+}
+
+#drink-recommendation {
+    background:
+    padding:
+    border-radius:
+}
