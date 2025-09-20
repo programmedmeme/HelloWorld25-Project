@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang=""en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Refreshing Menu! Your Own Recommended Drinks</title>
     <!-- Import Google Custom Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Ink:wght@100..900&display=swap" rel="stylesheet"
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Ink:wght@100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>🥂 Personal Drink Reccomender</h1>
-    <div id="drink-recommendation"> </div>
+    <h1 class="page-title">🌴🍹 Personal Drink Recommender 🍸✨</h1>
+
+    <label for="user-input">What kind of drink do you feel like having?</label>
+    <input type="text" id="user-input2" placeholder="e.g. fizzy, fruity, slushy">
+    <button onclick="drinkRecommendation()">Get Recommendation</button>
+    <div id="drink-recommendation"></div>
+
     <script src="main.js"></script>
 </body>
 </html>

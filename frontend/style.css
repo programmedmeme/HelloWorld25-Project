@@ -1,37 +1,56 @@
-/* <weight>: Use a value from 100 to 900 */
+/* <weight>: Use a value from 200 to 900 */
 /* <uniquifier>: Use a unique and descriptive class name */
 
-.bitcount-ink-custom {
-    font-family: "Bitcount Ink", system-ui;
-    font-optical-sizing: auto;
-    font-weight: 300;
-    font-style: normal;
-    font-variation-settings:
-      "slnt" 0,
-      "CRSV" 0.5,
-      "ELSH" 0,
-      "ELXP" 0,
-      "SZP1" 0,
-      "SZP2" 0,
-      "XPN1" 0,
-      "XPN2" 0,
-      "YPN1" 0,
-      "YPN2" 0;
+.source-code-pro-custom {
+  font-family: "Source Code Pro", monospace;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
 }
 
-
-
+.page-title {
+    font-family: "Source Code Pro", monospace;
+    text-align: center;
+    color: #5e4940;
+}
 
 body {
-    font-family: "Bitcount Ink", system-ui;
+    font-family: "Source Code Pro", monospace;
     text-align: center;
     padding: 2rem;
-    font-size: 12px; 
-    background: linear-gradient(to bottom, #f584ac, #fbbcd2)
+    font-size: 1rem; 
+    color: #ff9185;
+    background: linear-gradient(to bottom, #f9deb9, #fb7e7e)
+}
+
+label {
+  color: #b8766b;
+}
+
+input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    margin: 0.5rem;
+    border-radius: 8px;
+    border: 1px solid #ff958a;
+}
+
+button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    background-color: #fdaea5;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #ffa399;
 }
 
 #drink-recommendation {
-    background:
-    padding:
-    border-radius:
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
