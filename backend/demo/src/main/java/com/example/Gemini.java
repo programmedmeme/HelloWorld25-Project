@@ -1,7 +1,10 @@
 package com.example;
  
-    import com.google.genai.Client;
-    import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentResponse;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.RestController;
 
 public class Gemini {
     public static void main(String[] args) {
