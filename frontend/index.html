@@ -12,11 +12,51 @@
 <body>
     <h1 class="page-title">🌴🍹 Personal Drink Recommender 🍸✨</h1>
 
-    <label for="user-input">What kind of drink do you feel like having?</label>
-    <input type="text" id="user-input2" placeholder="e.g. fizzy, fruity, slushy">
+    <label for="user-input">What are you in the mood for?</label>
+    <input type="text" id="mood" placeholder="e.g. fizzy, fruity, slushy">
     <button onclick="drinkRecommendation()">Get Recommendation</button>
     <div id="drink-recommendation"></div>
 
     <script src="main.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Drink Recommendation:</title>
+    <!-- Import Google Custom Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitcount+Ink:wght@100..900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body id="body-two">
+    <h1 class="second-title">✩°⋆🌿. Your Drink Recommendation: ⋆⸜🍵✮˚</h1>
+    
+    <div class="drink-1" onclick="openModal('matcha')">
+        <img src="https://i.pinimg.com/736x/0d/22/61/0d226104f77b23e30c55696f5507af5f.jpg" alt="Matcha">
+
+        <div class="drink-1-info">
+            <h2>Matcha Latte</h2>
+            <p class="description">
+            A vibrant green, frothy drink made from finely ground green tea powder whisked into hot water or steamed milk, often with a sweetener like honey or maple syrup added for a balance of umami and sweetness
+            </p>
+
+            <h3>Ingredients: </h3>
+            <ul>
+                <li>4 mg matcha powder</li>
+                <li>1 oz of water</li>
+                <li>16 oz of milk</li>
+                <li>2 oz of prefered sweetener</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content"
+    </div>
 </body>
 </html>

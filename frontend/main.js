@@ -17,6 +17,10 @@ function drinkRecommendation() {
         document.getElementById('').innerText = responseText;
     })
     .catch(error => console.error('Error:', error));
+
+    //This makes the result scroll down
+    const result = document.getElementById("drink-1");
+    result.scrollIntoView({behavior: "smooth" });
 }
 
 
