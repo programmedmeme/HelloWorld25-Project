@@ -14,13 +14,18 @@
     color: #5e4940;
 }
 
-body {
+.shared-body-styles {
     font-family: "Source Code Pro", monospace;
     text-align: center;
-    padding: 2rem;
+    padding: 14rem;
     font-size: 1rem; 
     color: #ff9185;
-    background: linear-gradient(to bottom, #f9deb9, #fb7e7e)
+    background: linear-gradient(to bottom, #f9deb9, #fb7e7e);
+}
+
+body {
+    /* Apply shared styles */
+    @extend .shared-body-styles;
 }
 
 label {
@@ -50,7 +55,55 @@ button:hover {
 }
 
 #drink-recommendation {
-    margin-top: 2rem;
+    margin-top: 20rem;
     font-size: 1.2rem;
     font-weight: bold;
+}
+
+#body-two {
+    /* Apply shared styles */
+    @extend .shared-body-styles;
+    margin-bottom: 0;
+    padding-bottom: 2rem;
+}
+
+.second-title {
+    font-family: "Source Code Pro", monospace;
+    text-align: center;
+    color: #5e4940;
+    margin-bottom: 2rem;
+}
+
+.drink-1 {
+    background: #fbece4;
+    border-radius: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    display: flex;
+    max-width: 700px;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: left;
+}
+
+#drink-1 img {
+    width: 40%;
+    object-fit: cover;
+}
+
+.drink-1-info {
+    padding: 1.5rem;
+}
+
+.drink-1-info h2 {
+    color:#5e4940;
+    margin-top: 0;
+}
+
+.description {
+    font-style: italic;
+    margin: 0.5rem 0 1rem;
+}
+
+ul {
+  padding-left: 1.2rem;
 }
