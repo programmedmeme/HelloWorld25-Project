@@ -4,7 +4,7 @@ function drinkRecommendation() {
         mood: mood
     }
 
-    fetch("/api/recommend", {
+    fetch("http://localhost:8080/api/recommend", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -14,13 +14,10 @@ function drinkRecommendation() {
     .then(response => response.text()) // Get the response from the server as plain text
     .then(responseText => {
         // Display the response message on the page
-        document.getElementById('').innerText = responseText;
+        //document.getElementById('').innerText = responseText;
+        console.log(responseText);
     })
     .catch(error => console.error('Error:', error));
-
-    //This makes the result scroll down
-    const result = document.getElementById("drink-1");
-    result.scrollIntoView({behavior: "smooth" });
 }
 
 
