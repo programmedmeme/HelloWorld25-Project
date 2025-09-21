@@ -17,7 +17,7 @@ import com.google.genai.types.GenerateContentResponse;
 @RestController
 public class Gemini {
     @PostMapping("/api/recommend")
-     public static String getDrinkSuggestion(@RequestBody recommendRequest request) throws IOException {
+     public String getDrinkSuggestion(@RequestBody recommendRequest request) throws IOException {
         String userInput = request.getInput();
         Client client = Client.builder()
             .apiKey("AIzaSyAPjd3gJCTTdFrLwMZcD7R56n1ku2svOho")
