@@ -147,7 +147,7 @@ public class Gemini {
             }
         }
 
-        return ingredientList.toString();
+        return ingredientList.toString().replaceAll("\\\\", "");
     }
 
     public static String getImageLink(String details) {
