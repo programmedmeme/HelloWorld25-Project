@@ -13,25 +13,13 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
 
-@SpringBootApplication
-@RestController
 public class Gemini {
-    @PostMapping("/api/recommend")
-     public String getDrinkSuggestion(@RequestBody recommendRequest request) throws IOException {
-        String userInput = request.getInput();
 
      public static String getDrinkSuggestion(String userInput) throws IOException {
         Client client = Client.builder()
@@ -47,14 +35,10 @@ public class Gemini {
             (list + "\n" + prompt + "\n" + userInput),
             null
         );
-        
 
         return response.text(); 
     }
 
-    public static void main(String[] args) throws IOException {
-        SpringApplication.run(Gemini.class, args);
-        String imageLink;
     public static String fetchDrinkDetails(String drinkName) throws IOException, URISyntaxException {
         String suggestionLink = drinkName.replace(' ', '+'); 
 
@@ -79,7 +63,7 @@ public class Gemini {
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        String suggestion = getDrinkSuggestion("give choco");
+        String suggestion = getDrinkSuggestion("I have an exam tomorrow");
         String details = fetchDrinkDetails(suggestion);
         
         String instructions;
@@ -93,5 +77,9 @@ public class Gemini {
         } else {
             instructions = "";
         }
+
+        System.out.println(suggestion);
+        System.out.println(instructions);
     }
 }
+
