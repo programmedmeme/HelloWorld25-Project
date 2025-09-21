@@ -1,9 +1,5 @@
 package com.example;
  
-
-//import org.springframework.web.bind.annotation.PostMapping;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RestController;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,15 +9,36 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class Gemini {
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        String suggestion = getDrinkSuggestion("give me hot choco");
+        String details = fetchDrinkDetails(suggestion);
+        String ingredients = Extract(details);
+        String instructions = Instruct(details);
 
-     public static String getDrinkSuggestion(String userInput) throws IOException {
+        System.out.println(suggestion);
+        System.out.println(ingredients);
+        System.out.println(instructions);
+        System.out.println("\n" + details);
+    }
+
+    public static String getDrinkSuggestion(String userInput) throws IOException {
         Client client = Client.builder()
             .apiKey("AIzaSyAPjd3gJCTTdFrLwMZcD7R56n1ku2svOho")
             .build();
@@ -62,11 +79,9 @@ public class Gemini {
         return response.toString();
     }
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        String suggestion = getDrinkSuggestion("I have an exam tomorrow");
-        String details = fetchDrinkDetails(suggestion);
-        
-        String instructions;
+    public static String Instruct(String details) throws IOException, URISyntaxException {
+
+        String instructions = "";
 
         //instructions
         Pattern patternInst = Pattern.compile("(?<=\\\"strInstructions\\\":\\\").*?(?=\\\",\\\"strInstructionsES\\\")");
@@ -74,12 +89,45 @@ public class Gemini {
 
         if (matcherInst.find()) {
             instructions = matcherInst.group();
+    
         } else {
             instructions = "";
         }
 
-        System.out.println(suggestion);
-        System.out.println(instructions);
+        return instructions;
+        //System.out.println(suggestion);
+        //System.out.println(instructions);
+    }
+
+    public static String Extract(String details) throws IOException, URISyntaxException {
+        
+        StringBuilder ingredientList = new StringBuilder();
+
+        JsonObject json = JsonParser.parseString(details).getAsJsonObject();
+        JsonArray drinks = json.getAsJsonArray("drinks");
+
+        for (int i = 0; i < drinks.size(); i++) {
+            JsonObject drink = drinks.get(i).getAsJsonObject();
+
+            for (int j = 1; j <= 15; j++) {
+                String ingredientKey = "strIngredient" + j;
+                String measureKey = "strMeasure" + j;
+
+                if (drink.has(ingredientKey) && !drink.get(ingredientKey).isJsonNull()) {
+                    String ingredient = drink.get(ingredientKey).getAsString().trim();
+                    String measure = drink.has(measureKey) && !drink.get(measureKey).isJsonNull() ? drink.get(measureKey).getAsString().trim() : "";
+                    if (!ingredient.isEmpty()) {
+                        ingredientList.append("- ").append(ingredient);
+                        if (!measure.isEmpty()) {
+                            ingredientList.append(" (").append(measure).append(")");
+                        }
+                        ingredientList.append("\n");
+                    }
+                }
+            }
+        }
+
+        return ingredientList.toString();
     }
 }
 
