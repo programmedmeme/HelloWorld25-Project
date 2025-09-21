@@ -1,4 +1,4 @@
-# 🌴🍹 Personal Drink Recommender 🍸✨
+# 🌴🍹 Mood Mixer 🍸✨
 
 This is a tool to help you decide what kind of drink you may want, based on your mood and general situation. 
 
