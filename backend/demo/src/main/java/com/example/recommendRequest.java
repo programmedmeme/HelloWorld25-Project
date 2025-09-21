@@ -1,9 +1,13 @@
 package com.example;
 
 public class recommendRequest {
-    private String request;
+    private String input;
 
     String getInput() {
-        return this.request;
+        return input;
+    }
+
+    public void setInput(String input) {
+        this.input = input;
     }
 }

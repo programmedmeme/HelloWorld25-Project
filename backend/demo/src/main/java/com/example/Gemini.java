@@ -34,8 +34,11 @@ public class Gemini {
     public static HashMap<String, String> returnData(@RequestBody recommendRequest request) throws IOException, URISyntaxException {
         String userInput = request.getInput();
         String suggestion = getDrinkSuggestion(userInput);
+        System.out.println(userInput);
+        System.out.println(suggestion);
         String details = fetchDrinkDetails(suggestion);
         String ingredients = Extract(details);
+        System.out.println(ingredients);
         String instructions = Instruct(details);
 
         HashMap<String, String> hashData = new HashMap<>();
@@ -58,11 +61,15 @@ public class Gemini {
 
         InputStream is = Gemini.class.getResourceAsStream("List.txt"); //pulls text from List.txt as string
         String list = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        String prompt = "Respond with only name, suggest one singular drink from the list based on this mood: ";
-
+        String prompt = """
+                You are a drink recommender.
+                Your task is to suggest a single non-alcoholic drink from the provided list that best matches the user's preference.
+                You MUST choose a drink from the list. Do not make one up or choose one that isn't on the list.
+                Respond with ONLY the drink's name and nothing else.
+                """;
         GenerateContentResponse response = client.models.generateContent(
             "gemini-2.5-flash",
-            (list + "\n" + prompt + "\n" + userInput),
+            (prompt + "\n" + userInput + "\n" + list),
             null
         );
 
@@ -108,8 +115,6 @@ public class Gemini {
         }
 
         return instructions;
-        //System.out.println(suggestion);
-        //System.out.println(instructions);
     }
 
     public static String Extract(String details) throws IOException, URISyntaxException {
