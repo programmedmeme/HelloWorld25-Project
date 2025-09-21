@@ -14,13 +14,18 @@
     color: #5e4940;
 }
 
-body {
+.shared-body-styles {
     font-family: "Source Code Pro", monospace;
     text-align: center;
     padding: 14rem;
     font-size: 1rem; 
     color: #ff9185;
-    background: linear-gradient(to bottom, #f9deb9, #fb7e7e)
+    background: linear-gradient(to bottom, #f9deb9, #fb7e7e);
+}
+
+body {
+    /* Apply shared styles */
+    @extend .shared-body-styles;
 }
 
 label {
@@ -56,14 +61,10 @@ button:hover {
 }
 
 #body-two {
-    font-family: "Source Code Pro", monospace;
-    text-align: center;
-    padding: 14rem;
-    font-size: 1rem; 
-    color: #ff9185;
+    /* Apply shared styles */
+    @extend .shared-body-styles;
     margin-bottom: 0;
     padding-bottom: 2rem;
-    background: linear-gradient(to bottom, #f9deb9, #fb7e7e)
 }
 
 .second-title {
