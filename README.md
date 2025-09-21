@@ -9,8 +9,7 @@ and give you a non-alcoholic drink that fits your situation, along with a recipe
 
 ### API's
 
-All suggested drinks are called from [TheCocktailDB](https://www.thecocktaildb.com/).
-Gemini's [API]([url](https://ai.google.dev/gemini-api/docs)) is used to process our users' inputs.
+All suggested drinks are called from [TheCocktailDB](https://www.thecocktaildb.com/). Gemini's [API]([url](https://ai.google.dev/gemini-api/docs)) is used to process our users' inputs.
 
 ### Credits
 
