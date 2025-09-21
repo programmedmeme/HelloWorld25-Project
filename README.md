@@ -13,15 +13,15 @@ All suggested drinks are called from [TheCocktailDB](https://www.thecocktaildb.c
 
 ### Credits
 
-#Front end
+# Front end
 
 >Kaitlyn Wong
 
-#Full-stack
+# Full-stack
 
 >Alex Zhou
 
-#Backend
+# Backend
 
 >Daniel Kim
 >Matthew Tian
