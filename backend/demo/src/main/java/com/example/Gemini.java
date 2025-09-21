@@ -1,8 +1,15 @@
 package com.example;
  
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.regex.Pattern;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,8 +24,8 @@ import com.google.genai.types.GenerateContentResponse;
 @SpringBootApplication
 @RestController
 public class Gemini {
-    @PostMapping("/api/recommend")
-     public String getDrinkSuggestion(@RequestBody recommendRequest request) throws IOException {
+
+     public static String getDrinkSuggestion(@RequestBody recommendRequest request) throws IOException {
         String userInput = request.getInput();
         Client client = Client.builder()
             .apiKey("AIzaSyAPjd3gJCTTdFrLwMZcD7R56n1ku2svOho")
@@ -30,16 +37,54 @@ public class Gemini {
 
         GenerateContentResponse response = client.models.generateContent(
             "gemini-2.5-flash",
-            (list + "\n" + prompt + "\n" + userInput),
+            (list + "\n" + prompt + "\n" + request),
             null
         );
-        
 
         return response.text(); 
     }
 
-    public static void main(String[] args) throws IOException {
-        SpringApplication.run(Gemini.class, args);
-        String imageLink;
+    public static String fetchDrinkDetails(String drinkName) throws IOException, URISyntaxException {
+        String suggestionLink = drinkName.replace(' ', '+'); 
+
+        String urlString = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" 
+                            + suggestionLink.toLowerCase();
+
+        URI uri = new URI(urlString);
+        URL url = uri.toURL();
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+
+        StringBuilder response;
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+             response = new StringBuilder();
+             String line;
+             while ((line = reader.readLine()) != null) {
+                 response.append(line);
+             }
+        }
+
+        return response.toString();
+    }
+
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        String suggestion = getDrinkSuggestion("I have an exam tomorrow");
+        String details = fetchDrinkDetails(suggestion);
+        
+        String instructions;
+
+        //instructions
+        Pattern patternInst = Pattern.compile("(?<=\\\"strInstructions\\\":\\\").*?(?=\\\",\\\"strInstructionsES\\\")");
+        Matcher matcherInst = patternInst.matcher(details);
+
+        if (matcherInst.find()) {
+            instructions = matcherInst.group();
+        } else {
+            instructions = "";
+        }
+
+        System.out.println(suggestion);
+        System.out.println(instructions);
     }
 }
+
