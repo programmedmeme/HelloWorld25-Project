@@ -22,36 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 @SpringBootApplication
 @RestController
 public class Gemini {
     @PostMapping("/api/recommend")
     public static HashMap<String, String> returnData(@RequestBody recommendRequest request) throws IOException, URISyntaxException {
+        //gemini API call
         String userInput = request.getInput();
-        String suggestion = getDrinkSuggestion(userInput);
-        String details = fetchDrinkDetails(suggestion);
-        String ingredients = Extract(details);
-        String instructions = Instruct(details);
-
-        HashMap<String, String> hashData = new HashMap<>();
-        hashData.put("name", suggestion);
-        hashData.put("instructions", instructions);
-        hashData.put("ingredients", ingredients);
-
-        return hashData;
-    }
-
-
-    public static void main(String[] args) throws IOException, URISyntaxException {
-        SpringApplication.run(Gemini.class, args);
-    }
-
-    public static String getDrinkSuggestion(String userInput) throws IOException {
         Client client = Client.builder()
             .apiKey("AIzaSyAPjd3gJCTTdFrLwMZcD7R56n1ku2svOho")
             .build();
@@ -66,8 +44,29 @@ public class Gemini {
             null
         );
 
-        return response.text(); 
+        String geminiResponse = response.text(); 
+
+        //instructions
+        String cocktailDB = fetchDrinkDetails(geminiResponse);
+        String instructions;
+        Pattern patternInst = Pattern.compile("(?<=\\\"strInstructions\\\":\\\").*?(?=\\\",\\\"strInstructionsES\\\")");
+        Matcher matcherInst = patternInst.matcher(cocktailDB);
+
+        if (matcherInst.find()) {
+            instructions = matcherInst.group();
+        } else {
+            instructions = "";
+        }
+        HashMap<String, String> details = new HashMap<>();
+        details.put("name", geminiResponse);
+        details.put("instructions", instructions);
+
+        //ingredients
+        
+        
+        return details;
     }
+    
 
     public static String fetchDrinkDetails(String drinkName) throws IOException, URISyntaxException {
         String suggestionLink = drinkName.replace(' ', '+'); 
@@ -87,14 +86,19 @@ public class Gemini {
              while ((line = reader.readLine()) != null) {
                  response.append(line);
              }
-        }
+        } 
 
         return response.toString();
     }
 
-    public static String Instruct(String details) throws IOException, URISyntaxException {
-
-        String instructions = "";
+    public static void main(String[] args) throws IOException, URISyntaxException {
+        SpringApplication.run(Gemini.class, args);
+        
+        /**
+        String suggestion = getDrinkSuggestion("I have an exam tomorrow");
+        String details = fetchDrinkDetails(suggestion);
+        
+        String instructions;
 
         //instructions
         Pattern patternInst = Pattern.compile("(?<=\\\"strInstructions\\\":\\\").*?(?=\\\",\\\"strInstructionsES\\\")");
@@ -102,45 +106,13 @@ public class Gemini {
 
         if (matcherInst.find()) {
             instructions = matcherInst.group();
-    
         } else {
             instructions = "";
         }
 
-        return instructions;
-        //System.out.println(suggestion);
-        //System.out.println(instructions);
-    }
-
-    public static String Extract(String details) throws IOException, URISyntaxException {
-        
-        StringBuilder ingredientList = new StringBuilder();
-
-        JsonObject json = JsonParser.parseString(details).getAsJsonObject();
-        JsonArray drinks = json.getAsJsonArray("drinks");
-
-        for (int i = 0; i < drinks.size(); i++) {
-            JsonObject drink = drinks.get(i).getAsJsonObject();
-
-            for (int j = 1; j <= 15; j++) {
-                String ingredientKey = "strIngredient" + j;
-                String measureKey = "strMeasure" + j;
-
-                if (drink.has(ingredientKey) && !drink.get(ingredientKey).isJsonNull()) {
-                    String ingredient = drink.get(ingredientKey).getAsString().trim();
-                    String measure = drink.has(measureKey) && !drink.get(measureKey).isJsonNull() ? drink.get(measureKey).getAsString().trim() : "";
-                    if (!ingredient.isEmpty()) {
-                        ingredientList.append(ingredient);
-                        if (!measure.isEmpty()) {
-                            ingredientList.append(" (").append(measure).append(")");
-                        }
-                        ingredientList.append("\n");
-                    }
-                }
-            }
-        }
-
-        return ingredientList.toString();
+        System.out.println(suggestion);
+        System.out.println(instructions);
+        **/
     }
 }
 
