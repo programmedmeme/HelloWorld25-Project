@@ -15,6 +15,9 @@ Gemini's [API]([url](https://ai.google.dev/gemini-api/docs)) is used to process 
 ### Credits
 
 [Kaitlyn Wong]([url](https://github.com/keiqxji)) - frontend
+
 [Alex Zhou]([url](https://github.com/programmedmeme)) - full-stack
+
 [Daniel Kim]([url](https://github.com/dkim3110)) - backend
+
 Matthew Tian - backend 
