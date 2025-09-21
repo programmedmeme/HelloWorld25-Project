@@ -13,16 +13,16 @@ All suggested drinks are called from [TheCocktailDB](https://www.thecocktaildb.c
 
 ## Credits
 
-#### Front end
+#### Front-end
 
->Kaitlyn Wong
+>[Kaitlyn Wong](https://github.com/keiqxji)
 
 #### Full-stack
 
->Alex Zhou
+>[Alex Zhou](https://github.com/programmedmeme)
 
-#### Backend
+#### Back-end
 
->Daniel Kim
+>[Daniel Kim](https://github.com/dkim3110)
 
->Matthew Tian
+>[Matthew Tian](https://github.com/matthewtian3)
