@@ -1,5 +1,5 @@
 package com.example;
- 
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,16 +9,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentResponse;
@@ -26,52 +18,34 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-@CrossOrigin(origins = "http://127.0.0.1:5500")
-@SpringBootApplication
-@RestController
-public class Gemini {
-    @PostMapping("/api/recommend")
-    public HashMap<String, String> returnData(@RequestBody recommendRequest request) throws IOException, URISyntaxException {
-        String userInput = request.getInput();
-        String suggestion = getDrinkSuggestion(userInput);
-        System.out.println(userInput);
-        System.out.println(suggestion);
-        String details = fetchDrinkDetails(suggestion);
-        String ingredients = Extract(details);
-        System.out.println(ingredients);
-        String instructions = Instruct(details);
-        String imageLink = getImageLink(details); //extract image link
-        System.out.println(imageLink);
-
-        HashMap<String, String> hashData = new HashMap<>();
-        hashData.put("name", suggestion);
-        hashData.put("instructions", instructions);
-        hashData.put("ingredients", ingredients);
-        hashData.put("imageLink", imageLink);
-        return hashData;
-    }
-
-
+public class GeminiFixedFormatting {
     public static void main(String[] args) throws IOException, URISyntaxException {
-        SpringApplication.run(Gemini.class, args);
+        String suggestion = getDrinkSuggestion("It's a cold day. I want something warm."); //user input, Gemini output
+        String details = fetchDrinkDetails(suggestion); //Gemini output into link, fetch details from CocktailDB
+        String ingredients = Extract(details); //extract ingredient list from details
+        String instructions = Instruct(details); //extract instructions from ingredient list
+        String imageLink = getImageLink(details); //extract image link
+
+        //result print, temporary to see how code works
+        System.out.println("\n" + suggestion);
+        System.out.println(imageLink);
+        System.out.println(ingredients);
+        System.out.println(instructions);
+        System.out.println("\n" + details);
     }
 
     public static String getDrinkSuggestion(String userInput) throws IOException {
         Client client = Client.builder()
-            .apiKey("AIzaSyAPjd3gJCTTdFrLwMZcD7R56n1ku2svOho")
+            .apiKey("AIzaSyAPjd3gJCTTdFrLwMZcD7R56n1ku2svOho") //Gemini API key
             .build();
 
-        InputStream is = Gemini.class.getResourceAsStream("List.txt"); //pulls text from List.txt as string
+        InputStream is = GeminiFixedFormatting.class.getResourceAsStream("List.txt"); //pulls text from List.txt as string
         String list = new String(is.readAllBytes(), StandardCharsets.UTF_8);
-        String prompt = """
-                You are a drink recommender.
-                Your task is to suggest a single non-alcoholic drink from the provided list that best matches the user's preference.
-                You MUST choose a drink from the list. Do not make one up or choose one that isn't on the list.
-                Respond with ONLY the drink's name and nothing else.
-                """;
+        String prompt = "Respond with only name, suggest one singular drink from the list based on this mood: ";
+
         GenerateContentResponse response = client.models.generateContent(
             "gemini-2.5-flash",
-            (prompt + "\n" + userInput + "\n" + list),
+            (list + "\n" + prompt + "\n" + userInput),
             null
         );
 
@@ -79,7 +53,7 @@ public class Gemini {
     }
 
     public static String fetchDrinkDetails(String drinkName) throws IOException, URISyntaxException {
-        String suggestionLink = drinkName.replace(' ', '+'); 
+        String suggestionLink = drinkName.replaceAll(" ", "+");
 
         String urlString = "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" 
                             + suggestionLink.toLowerCase();
@@ -110,7 +84,7 @@ public class Gemini {
         Matcher matcherInst = patternInst.matcher(details);
 
         if (matcherInst.find()) {
-            instructions = matcherInst.group();
+            instructions = matcherInst.group().replaceAll("\\\\", "");
     
         } else {
             instructions = "";
@@ -137,7 +111,7 @@ public class Gemini {
                     String ingredient = drink.get(ingredientKey).getAsString().trim();
                     String measure = drink.has(measureKey) && !drink.get(measureKey).isJsonNull() ? drink.get(measureKey).getAsString().trim() : "";
                     if (!ingredient.isEmpty()) {
-                        ingredientList.append(ingredient);
+                        ingredientList.append("- ").append(ingredient);
                         if (!measure.isEmpty()) {
                             ingredientList.append(" (").append(measure).append(")");
                         }
@@ -147,7 +121,7 @@ public class Gemini {
             }
         }
 
-        return ingredientList.toString();
+        return ingredientList.toString().replaceAll("\\\\", "");
     }
 
     public static String getImageLink(String details) {

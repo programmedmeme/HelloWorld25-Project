@@ -2,7 +2,7 @@
 let recommendedDrinkName = "";
 let recommendedDrinkInstructions = "";
 let recommendedDrinkIngredients = "";
-
+let recommendedDrinkImage = "";
 function drinkRecommendation() {
     const mood = document.getElementById("mood").value.toLowerCase();
     
@@ -11,7 +11,7 @@ function drinkRecommendation() {
     const data = {
       input: mood
     };
-  
+
     fetch("http://localhost:8080/api/recommend", {
       method: 'POST',
       headers: {
@@ -25,6 +25,7 @@ function drinkRecommendation() {
         recommendedDrinkName = responseData.name; 
         recommendedDrinkInstructions = responseData.instructions;
         recommendedDrinkIngredients = recommendedDrinkIngredients = responseData.ingredients.trim().split('\n');
+        recommendedDrinkImage = responseData.imageLink;
         console.log(responseData);
         // Switch screens via class toggle (not inline display)
         document.getElementById("input-screen").classList.remove("active");
@@ -36,6 +37,7 @@ function drinkRecommendation() {
             `✩°⋆🌿. Your Drink Recommendation: ${recommendedDrinkName} ⋆⸜🍵✮˚`;
         document.getElementById("instructions").textContent = recommendedDrinkInstructions;
         document.getElementById("drinkName").textContent = recommendedDrinkName;
+        document.getElementById("mainImage").src = recommendedDrinkImage;
     }) // --- FIX: Added the closing parenthesis and brace for the .then() block
     .catch(error => console.error('Error:', error)); // It's also good practice to add a .catch()
 }
