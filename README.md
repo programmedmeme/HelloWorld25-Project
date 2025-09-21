@@ -4,7 +4,7 @@ This is a tool to help you decide what kind of drink you may want, based on your
 
 ## Instructions
 
-Enter your mood—feelings, general happenings, or simply things you are looking forward to. We will then process that information
+Enter your mood—feelings, general happenings, or simply things that you are looking forward to. We will then process that information
 and give you a non-alcoholic drink that fits your situation, along with a recipe to follow along.
 
 ## API's
