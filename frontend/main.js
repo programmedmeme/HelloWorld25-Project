@@ -23,12 +23,11 @@ function openModal(drinkKey) {
   const recipes = {
     matcha: {
       name: "Matcha Latte",
-      instructions: [
-        "Pour hot water into your matcha bowl to warm it, then discard.",
-        "Sift matcha powder into the bowl.",
-        "Add a small amount of hot (not boiling) water.",
-        "Whisk until smooth and frothy.",
-        "Add milk and sweetener, whisk again, and enjoy!"
+      ingredients: [
+        "4 mg matcha powder",
+        "1 oz of water",
+        "16 oz of milk",
+        "2 oz of prefered sweetener"
       ]
     }
   };
@@ -40,7 +39,7 @@ function openModal(drinkKey) {
     modalBody.innerHTML = `
       <h2>${drink.name}</h2>
       <ul>
-        ${drink.instructions.map(step => `<li>${step}</li>`).join("")}
+        ${drink.ingredients.map(step => `<li>${step}</li>`).join("")}
       </ul>
     `;
   } else {

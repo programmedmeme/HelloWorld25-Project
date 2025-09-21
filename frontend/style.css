@@ -10,19 +10,11 @@
 
 /* Screen switching (fade/slide effect) */
 .screen {
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+  display: none;   /* Hide all screens by default */
 }
 
 .screen.active {
-  opacity: 1;
-  visibility: visible;
-  position: relative;
+  display: block;  /* Show only the one with .active */
 }
 
 
@@ -39,7 +31,7 @@
 body {
     font-family: "Source Code Pro", monospace;
     text-align: center;
-    padding: 3rem;
+    padding: 13.5rem;
     font-size: 1rem; 
     color: #ff9185;
     margin: 0;
@@ -111,11 +103,6 @@ button:hover {
 .drink-1-info h2 {
     color:#5e4940;
     margin-top: 0;
-}
-
-.description {
-    font-style: italic;
-    margin: 0.5rem 0 1rem;
 }
 
 ul {
